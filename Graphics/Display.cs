@@ -55,13 +55,14 @@ namespace Graphics
             _balls.Add(new BallToIcosahedron(ball));
         }
 
-        static private void DrawTriangleRaw(Position p1, Position p2, Position p3)
+        static private void DrawTriangleRaw(Triangle triangle)
         {
             GL.Begin(PrimitiveType.Triangles);
             GL.Color3(Color.White);
-            GL.Vertex3(p1.X, p1.Y, p1.Z);
-            GL.Vertex3(p2.X, p2.Y, p2.Z);
-            GL.Vertex3(p3.X, p3.Y, p3.Z);
+
+            foreach (var corner in triangle.Corners)
+                GL.Vertex3(corner.X, corner.Y, corner.Z);
+
             GL.End();
         }
 
@@ -76,7 +77,8 @@ namespace Graphics
             var p1 = new Position(-1, 1, 0);
             var p2 = new Position(0, -1, 0);
             var p3 = new Position(1, 1, 0);
-            DrawTriangleRaw(p1, p2, p3);
+            var triangle = new Triangle(p1, p2, p3);
+            DrawTriangleRaw(triangle);
 
             _window.SwapBuffers();
             _frameCounter++;
