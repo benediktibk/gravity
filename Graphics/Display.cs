@@ -18,23 +18,23 @@ namespace Graphics
         private readonly Logger _logger;
         private readonly int _fpsRefreshTime;
         private int _frameCounter;
-        private List<BallToIcosahedron> _balls; 
+        private readonly List<BallToIcosahedron> _balls; 
 
         public Display()
         {
+            _balls = new List<BallToIcosahedron>();
             _window = new GameWindow();
+            _logger = LogManager.GetCurrentClassLogger();
+            _loopTimeStopwatch = new Stopwatch();
+            _fpsLoggerStopwatch = new Stopwatch();
+
+            _frameCounter = 0;
+            _fpsRefreshTime = 2;
+
             _window.Load += OnLoad;
             _window.Resize += OnResize;
             _window.UpdateFrame += UpdateFrame;
             _window.RenderFrame += RenderFrame;
-
-            _loopTimeStopwatch = new Stopwatch();
-            _fpsLoggerStopwatch = new Stopwatch();
-
-            _logger = LogManager.GetCurrentClassLogger();
-
-            _frameCounter = 0;
-            _fpsRefreshTime = 2;
         }
 
         public void Dispose()
@@ -55,13 +55,13 @@ namespace Graphics
             _balls.Add(new BallToIcosahedron(ball));
         }
 
-        static private void DrawTriangleRaw(Triangle triangle)
+        static private void DrawTriangleRaw(Triangle triangle, Color color)
         {
             GL.Begin(PrimitiveType.Triangles);
-            GL.Color3(Color.White);
+            GL.Color3(color);
 
-            foreach (var corner in triangle.Corners)
-                GL.Vertex3(corner.X, corner.Y, corner.Z);
+            foreach (var vertex in triangle.Vertices)
+                GL.Vertex3(vertex.X, vertex.Y, vertex.Z);
 
             GL.End();
         }
@@ -74,11 +74,33 @@ namespace Graphics
             GL.LoadIdentity();
             GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
 
-            var p1 = new Position(-1, 1, 0);
-            var p2 = new Position(0, -1, 0);
-            var p3 = new Position(1, 1, 0);
-            var triangle = new Triangle(p1, p2, p3);
-            DrawTriangleRaw(triangle);
+            var colors = new List<Color>
+            {
+                Color.DarkGreen,
+                Color.DarkRed,
+                Color.DarkBlue,
+                Color.DarkCyan,
+                Color.DarkGoldenrod,
+                Color.DarkGray,
+                Color.DarkMagenta,
+                Color.DarkKhaki,
+                Color.DarkOrange,
+                Color.DarkOrchid
+            };
+            var i = 0;
+
+            foreach (var ballToIcosahedron in _balls)
+            {
+                ballToIcosahedron.UpdatePose();
+                var faces = ballToIcosahedron.Icosahedron.CreateFaces();
+
+                foreach (var face in faces)
+                {
+                    DrawTriangleRaw(face, colors[i%10]);
+                    i++;
+                }
+
+            }
 
             _window.SwapBuffers();
             _frameCounter++;

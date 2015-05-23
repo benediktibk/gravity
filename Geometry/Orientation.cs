@@ -11,7 +11,7 @@ namespace Geometry
         public Orientation()
         { }
 
-        public Orientation(int x, int y, int z) :
+        public Orientation(double x, double y, double z) :
             base(x, y, z)
         { }
     }

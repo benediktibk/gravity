@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Geometry
+﻿namespace Geometry
 {
     public class Ball
     {
@@ -13,7 +7,7 @@ namespace Geometry
         public Ball(double diameter)
         {
             Pose = new Pose();
-            _diameter = 0;
+            _diameter = diameter;
         }
 
         public Pose Pose { get; set; }

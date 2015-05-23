@@ -7,8 +7,17 @@ namespace Geometry
         public Position()
         { }
 
-        public Position(int x, int y, int z) :
+        public Position(double x, double y, double z) :
             base(x, y, z)
         { }
+
+        private Position(Vector3D position) :
+            base(position)
+        { }
+
+        public static Position Add(Position a, Position b)
+        {
+            return new Position(Vector3D.Add(a, b));
+        }
     }
 }

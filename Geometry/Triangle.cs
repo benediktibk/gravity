@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Geometry
+﻿namespace Geometry
 {
     public class Triangle
     {
-        private readonly Position[] _corners;
+        private readonly Position[] _vertices;
 
         public Triangle(Position p1, Position p2, Position p3)
         {
-            _corners = new[] { p1, p2, p3 };
+            _vertices = new[] { p1, p2, p3 };
         }
 
-        public Position[] Corners
+        public Position[] Vertices
         {
-            get { return _corners; }
+            get { return _vertices; }
         }
     }
 }

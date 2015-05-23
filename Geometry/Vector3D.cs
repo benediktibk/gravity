@@ -4,31 +4,59 @@ namespace Geometry
 {
     public class Vector3D
     {
-        private readonly double[] _directions;
+        private readonly double[] _values;
 
         public Vector3D()
         {
-            _directions = new double[] {0, 0, 0};
+            _values = new double[] {0, 0, 0};
         }
 
         public Vector3D(double x, double y, double z)
         {
-            _directions = new[] {x, y, z};
+            _values = new[] {x, y, z};
+        }
+
+        public Vector3D(Vector3D vector)
+        {
+            _values = new double[3];
+
+            for (var i = 0; i < 3; ++i)
+                _values[i] = vector.Values[i];
+        }
+
+        private Vector3D(double[] values)
+        {
+            _values = values;
         }
 
         public double X
         {
-            get { return _directions[0]; }
+            get { return _values[0]; }
         }
 
         public double Y
         {
-            get { return _directions[1]; }
+            get { return _values[1]; }
         }
 
         public double Z
         {
-            get { return _directions[2]; }
+            get { return _values[2]; }
+        }
+
+        public IReadOnlyList<double> Values
+        {
+            get { return _values; }
+        }
+
+        public static Vector3D Add(Vector3D a, Vector3D b)
+        {
+            var values = new double[3];
+
+            for (var i = 0; i < 3; i++)
+                values[i] = a.Values[i] + b.Values[i];
+
+            return new Vector3D(values);
         }
     }
 }
