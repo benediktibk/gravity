@@ -18,7 +18,8 @@ namespace Graphics
         private readonly Logger _logger;
         private readonly int _fpsRefreshTime;
         private int _frameCounter;
-        private readonly List<BallToIcosahedron> _balls; 
+        private readonly List<BallToIcosahedron> _balls;
+        private Pose _cameraPose;
 
         public Display()
         {
@@ -27,6 +28,7 @@ namespace Graphics
             _logger = LogManager.GetCurrentClassLogger();
             _loopTimeStopwatch = new Stopwatch();
             _fpsLoggerStopwatch = new Stopwatch();
+            _cameraPose = new Pose(new Position(0, 0, 0), new Orientation(0, 0, -1));
 
             _frameCounter = 0;
             _fpsRefreshTime = 2;
@@ -55,13 +57,16 @@ namespace Graphics
             _balls.Add(new BallToIcosahedron(ball));
         }
 
-        static private void DrawTriangleRaw(Triangle triangle, Color color)
+        private void DrawTriangle(Triangle triangle, Color color)
         {
             GL.Begin(PrimitiveType.Triangles);
             GL.Color3(color);
 
             foreach (var vertex in triangle.Vertices)
-                GL.Vertex3(vertex.X, vertex.Y, vertex.Z);
+            {
+                var vertexShifted = Position.Subtract(_cameraPose.Position, vertex);
+                GL.Vertex3(vertexShifted.X, vertexShifted.Y, vertexShifted.Z);
+            }
 
             GL.End();
         }
@@ -96,7 +101,7 @@ namespace Graphics
 
                 foreach (var face in faces)
                 {
-                    DrawTriangleRaw(face, colors[i%10]);
+                    DrawTriangle(face, colors[i%10]);
                     i++;
                 }
 

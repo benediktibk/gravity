@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace Geometry
 {
-    public class Vector3D
+    public class Vector3D : IEquatable<Vector3D>
     {
         private readonly double[] _values;
 
@@ -57,6 +58,23 @@ namespace Geometry
                 values[i] = a.Values[i] + b.Values[i];
 
             return new Vector3D(values);
+        }
+
+        public static Vector3D Subtract(Vector3D a, Vector3D b)
+        {
+            var values = new double[3];
+
+            for (var i = 0; i < 3; i++)
+                values[i] = a.Values[i] - b.Values[i];
+
+            return new Vector3D(values);
+        }
+
+        public bool Equals(Vector3D other)
+        {
+            return  X == other.X && 
+                    Y == other.Y && 
+                    Z == other.Z;
         }
     }
 }

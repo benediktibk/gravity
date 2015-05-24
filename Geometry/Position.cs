@@ -19,5 +19,10 @@ namespace Geometry
         {
             return new Position(Vector3D.Add(a, b));
         }
+
+        public static Position Subtract(Position a, Position b)
+        {
+            return new Position(Vector3D.Subtract(a, b));
+        }
     }
 }

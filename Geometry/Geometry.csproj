@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Ball.cs" />
     <Compile Include="Icosahedron.cs" />
+    <Compile Include="Matrix3D.cs" />
     <Compile Include="Orientation.cs" />
     <Compile Include="Pose.cs" />
     <Compile Include="Position.cs" />

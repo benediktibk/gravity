@@ -1,6 +1,8 @@
-﻿namespace Geometry
+﻿using System;
+
+namespace Geometry
 {
-    public class Pose
+    public class Pose : IEquatable<Pose>
     {
         private readonly Position _position;
         private readonly Orientation _orientation;
@@ -25,6 +27,12 @@
         public Orientation Orientation
         {
             get { return _orientation; }
+        }
+
+        public bool Equals(Pose other)
+        {
+            return  Position.Equals(other.Position) && 
+                    Orientation.Equals(other.Orientation);
         }
     }
 }
